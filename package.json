@@ -1,0 +1,37 @@
+{
+  "name": "react-power-tree",
+  "version": "0.0.1",
+  "description": "data and event driven tree view as react component",
+  "main": "src/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naitianliu/react-power-tree.git"
+  },
+  "keywords": [
+    "react",
+    "tree",
+    "treeview",
+    "customization"
+  ],
+  "author": "naitianliu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/naitianliu/react-power-tree/issues"
+  },
+  "homepage": "https://github.com/naitianliu/react-power-tree#readme",
+  "dependencies": {
+
+  },
+  "devDependencies": {
+
+  },
+  "peerDependencies": {
+
+  }
+}
