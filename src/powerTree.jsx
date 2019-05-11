@@ -73,7 +73,7 @@ const getCollapseByNode = (nodeData, status) => {
     return collapse
 };
 
-function recurToGetTree(props, state, targetNode, depth = 0, onClickFunc, onSelectFunc) {
+function recurToGetTree(props, state, targetNode, depth = 0, onExpandFunc, onSelectFunc) {
     const {classes} = props;
     const {pathStatusMap, currentPath} = state;
     const path = getPathString(targetNode);
@@ -88,7 +88,8 @@ function recurToGetTree(props, state, targetNode, depth = 0, onClickFunc, onSele
                         nodeData['parents'] = [...targetNode.parents, targetNode];
                         const path = getPathString(nodeData);
                         const {name, children} = nodeData;
-                        const hasChildren = !!children && children.length > 0;
+                        let hasChildren = !!children && children.length > 0;
+                        console.log(hasChildren, nodeData);
                         const status = pathStatusMap[path];
                         const collapse = getCollapseByNode(nodeData, status);
                         let arrowIcon = !!collapse ? <ArrowRightIcon/> : <ArrowDropDownIcon/>;
@@ -107,9 +108,7 @@ function recurToGetTree(props, state, targetNode, depth = 0, onClickFunc, onSele
                                         onSelectFunc(nodeData);
                                     }}
                                     onDoubleClick={() => {
-                                        if (hasChildren) {
-                                            onClickFunc(nodeData);
-                                        }
+                                        onExpandFunc(nodeData);
                                     }}
                                 >
                                     <ListItemIcon
@@ -117,9 +116,7 @@ function recurToGetTree(props, state, targetNode, depth = 0, onClickFunc, onSele
                                         className={classes.listItemIcon}
                                         onClick={(event) => {
                                             event.stopPropagation();
-                                            if (hasChildren) {
-                                                onClickFunc(nodeData);
-                                            }
+                                            onExpandFunc(nodeData);
                                         }}
                                     >
                                         {arrowIcon}
@@ -132,7 +129,7 @@ function recurToGetTree(props, state, targetNode, depth = 0, onClickFunc, onSele
                                         primary={<Typography variant={"subtitle1"}>{name}</Typography>}
                                     />
                                 </ListItem>
-                                {hasChildren && recurToGetTree(props, state, nodeData, depth + 1, onClickFunc, onSelectFunc)}
+                                {hasChildren && recurToGetTree(props, state, nodeData, depth + 1, onExpandFunc, onSelectFunc)}
                             </div>
                         )
                     })}
@@ -156,7 +153,7 @@ class PowerTree extends React.Component {
 
     }
 
-    toggleToExpandDir = (nodeData) => {
+    toggleToExpandNode = (nodeData) => {
         let {pathStatusMap} = this.state;
         const pathSelected = getPathString(nodeData);
         const status = pathStatusMap[pathSelected];
@@ -179,6 +176,24 @@ class PowerTree extends React.Component {
         this.setState({currentPath: path});
     };
 
+    handleNodeExpand = (nodeData, params) => {
+        const {onNodeExpand} = this.props;
+        const hasChildren = !!nodeData.children && nodeData.children.length > 0;
+        if (hasChildren) {
+            this.toggleToExpandNode(nodeData)
+        } else {
+            if (!!onNodeExpand) {
+                onNodeExpand(nodeData, {
+                    addChildren: (children) => {
+                        nodeData['children'] = children;
+                        // params.nodeUpdated(nodeData);
+                        this.toggleToExpandNode(nodeData)
+                    }
+                });
+            }
+        }
+    };
+
     render() {
         const {classes, data} = this.props;
         const rootNode = {
@@ -186,7 +201,7 @@ class PowerTree extends React.Component {
             parents: [],
             children: data,
         };
-        const tree = recurToGetTree(this.props, this.state, rootNode, 0, this.toggleToExpandDir, this.handleNodeSelect);
+        const tree = recurToGetTree(this.props, this.state, rootNode, 0, this.handleNodeExpand, this.handleNodeSelect);
         return (
             <div className={classes.root}>
                 {tree}

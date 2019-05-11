@@ -6,6 +6,7 @@ import Navigation from './components/navigation';
 import Typography from "@material-ui/core/Typography";
 import {myTheme} from "example/constants";
 import StaticTreeView from './components/staticTreeView';
+import RecursiveTreeView from './components/recursiveTreeView';
 
 const styles = theme => ({
     root: {}
@@ -18,7 +19,7 @@ const items = [
     },
     {
         name: 'Recursive Tree View',
-        content: <Typography>Recursive Tree View</Typography>
+        content: <RecursiveTreeView/>
     },
 ];
 
