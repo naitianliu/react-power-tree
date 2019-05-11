@@ -14,6 +14,15 @@ export default function StaticTreeView(props) {
             <br/>
             <Typography variant={"h6"}>Default Expanded</Typography>
             <PowerTree data={dataDefaultExpanded}/>
+            <br/>
+            <Typography variant={"h6"}>Event: Node Selected</Typography>
+            <PowerTree
+                data={dataDefaultExpanded}
+                onNodeSelect={(nodeData) => {
+                    console.log('Node selected', nodeData);
+                }}
+            />
+            <br/>
         </div>
     )
 }

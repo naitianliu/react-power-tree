@@ -156,11 +156,11 @@ class PowerTree extends React.Component {
 
     }
 
-    toggleToExpandDir = (nodeSelected) => {
+    toggleToExpandDir = (nodeData) => {
         let {pathStatusMap} = this.state;
-        const pathSelected = getPathString(nodeSelected);
+        const pathSelected = getPathString(nodeData);
         const status = pathStatusMap[pathSelected];
-        const collapse = getCollapseByNode(nodeSelected, status);
+        const collapse = getCollapseByNode(nodeData, status);
         if (collapse) {
             pathStatusMap[pathSelected] = statusOption.expanded;
             this.setState({pathStatusMap});
@@ -170,12 +170,12 @@ class PowerTree extends React.Component {
         }
     };
 
-    fileOrFolderSelect = (contentData) => {
-        const {onPathSelect} = this.props;
-        const {path} = contentData;
-        if (!!onPathSelect) {
-            onPathSelect(contentData);
+    handleNodeSelect = (nodeData) => {
+        const {onNodeSelect} = this.props;
+        if (!!onNodeSelect) {
+            onNodeSelect(nodeData);
         }
+        const path = getPathString(nodeData);
         this.setState({currentPath: path});
     };
 
@@ -186,7 +186,7 @@ class PowerTree extends React.Component {
             parents: [],
             children: data,
         };
-        const tree = recurToGetTree(this.props, this.state, rootNode, 0, this.toggleToExpandDir, this.fileOrFolderSelect);
+        const tree = recurToGetTree(this.props, this.state, rootNode, 0, this.toggleToExpandDir, this.handleNodeSelect);
         return (
             <div className={classes.root}>
                 {tree}
