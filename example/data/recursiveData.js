@@ -44,12 +44,12 @@ export const dataRecursive = [
 
 export const dataAppended = [
     {
-        name: `dir-${Math.floor(Math.random() * 1000)}`
+        name: `dir-111`
     },
     {
-        name: `dir-${Math.floor(Math.random() * 1000)}`
+        name: `dir-222`
     },
     {
-        name: `dir-${Math.floor(Math.random() * 1000)}`
+        name: `dir-333`
     },
 ];

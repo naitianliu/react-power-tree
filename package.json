@@ -30,6 +30,7 @@
   "homepage": "https://github.com/naitianliu/react-power-tree#readme",
   "dependencies": {
     "classnames": "^2.2.6",
+    "lodash": "^4.17.11",
     "prop-types": "^15.7.2"
   },
   "devDependencies": {

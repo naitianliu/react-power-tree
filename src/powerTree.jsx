@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import {withStyles} from '@material-ui/core/styles';
 import Collapse from "@material-ui/core/Collapse";
 import Typography from "@material-ui/core/Typography";
@@ -89,7 +90,6 @@ function recurToGetTree(props, state, targetNode, depth = 0, onExpandFunc, onSel
                         const path = getPathString(nodeData);
                         const {name, children} = nodeData;
                         let hasChildren = !!children && children.length > 0;
-                        console.log(hasChildren, nodeData);
                         const status = pathStatusMap[path];
                         const collapse = getCollapseByNode(nodeData, status);
                         let arrowIcon = !!collapse ? <ArrowRightIcon/> : <ArrowDropDownIcon/>;
@@ -107,7 +107,8 @@ function recurToGetTree(props, state, targetNode, depth = 0, onExpandFunc, onSel
                                     onClick={() => {
                                         onSelectFunc(nodeData);
                                     }}
-                                    onDoubleClick={() => {
+                                    onDoubleClick={(event) => {
+                                        event.stopPropagation();
                                         onExpandFunc(nodeData);
                                     }}
                                 >
@@ -145,7 +146,12 @@ class PowerTree extends React.Component {
         super(props);
         this.state = {
             pathStatusMap: {},
-            currentPath: ''
+            currentPath: '',
+            rootNode: {
+                name: 'root',
+                parents: [],
+                children: this.props.data,
+            },
         };
     }
 
@@ -176,7 +182,7 @@ class PowerTree extends React.Component {
         this.setState({currentPath: path});
     };
 
-    handleNodeExpand = (nodeData, params) => {
+    handleNodeExpand = (nodeData) => {
         const {onNodeExpand} = this.props;
         const hasChildren = !!nodeData.children && nodeData.children.length > 0;
         if (hasChildren) {
@@ -185,22 +191,37 @@ class PowerTree extends React.Component {
             if (!!onNodeExpand) {
                 onNodeExpand(nodeData, {
                     addChildren: (children) => {
-                        nodeData['children'] = children;
-                        // params.nodeUpdated(nodeData);
-                        this.toggleToExpandNode(nodeData)
+                        const hasChildren = !!nodeData.children && nodeData.children.length > 0;
+                        if (!hasChildren) {
+                            nodeData['children'] = children;
+                            // this.addChildrenToNode(nodeData, children);
+                            this.toggleToExpandNode(nodeData);
+                        }
                     }
                 });
             }
         }
     };
 
+    addChildrenToNode = (nodeData, children) => {
+        let {rootNode} = this.state;
+        // get path array of node
+        const {name, parents} = nodeData;
+        let path = [];
+        for (let i=0; i<parents.length-1; i++) {
+            path = [...path, 'children', parents[i].children.indexOf(parents[i+1])];
+        }
+        path = [...path, 'children', parents[parents.length - 1].children.indexOf(nodeData)];
+        nodeData['children'] = children;
+        nodeData = _.omit(nodeData, ['parents']);
+        console.log('path', path, nodeData);
+        _.set(rootNode, path, nodeData);
+        this.setState({rootNode});
+    };
+
     render() {
-        const {classes, data} = this.props;
-        const rootNode = {
-            name: 'root',
-            parents: [],
-            children: data,
-        };
+        const {classes} = this.props;
+        const {rootNode} = this.state;
         const tree = recurToGetTree(this.props, this.state, rootNode, 0, this.handleNodeExpand, this.handleNodeSelect);
         return (
             <div className={classes.root}>
