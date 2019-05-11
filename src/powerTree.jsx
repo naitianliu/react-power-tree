@@ -60,10 +60,17 @@ const statusOption = {
 };
 
 const getPathString = (nodeData) => {
-    console.log('nodeData', nodeData);
     const {name, parents} = nodeData;
     let names = parents.map(node => node.name);
     return [...names, name].join(',');
+};
+
+const getCollapseByNode = (nodeData, status) => {
+    let collapse = !status || status === statusOption.collapsed;
+    if (!status && !!nodeData.defaultExpanded) {
+        collapse = false;
+    }
+    return collapse
 };
 
 function recurToGetTree(props, state, targetNode, depth = 0, onClickFunc, onSelectFunc) {
@@ -71,7 +78,7 @@ function recurToGetTree(props, state, targetNode, depth = 0, onClickFunc, onSele
     const {pathStatusMap, currentPath} = state;
     const path = getPathString(targetNode);
     const status = pathStatusMap[path];
-    const collapse = !status || status === statusOption.collapsed;
+    const collapse = getCollapseByNode(targetNode, status);
     return (
         <div>
             {!!targetNode.children && targetNode.children.length > 0 &&
@@ -83,7 +90,7 @@ function recurToGetTree(props, state, targetNode, depth = 0, onClickFunc, onSele
                         const {name, children} = nodeData;
                         const hasChildren = !!children && children.length > 0;
                         const status = pathStatusMap[path];
-                        const collapse = !status || status === statusOption.collapsed;
+                        const collapse = getCollapseByNode(nodeData, status);
                         let arrowIcon = !!collapse ? <ArrowRightIcon/> : <ArrowDropDownIcon/>;
                         if (!hasChildren) {
                             arrowIcon = <span/>;
@@ -153,7 +160,7 @@ class PowerTree extends React.Component {
         let {pathStatusMap} = this.state;
         const pathSelected = getPathString(nodeSelected);
         const status = pathStatusMap[pathSelected];
-        const collapse = !status || status === statusOption.collapsed;
+        const collapse = getCollapseByNode(nodeSelected, status);
         if (collapse) {
             pathStatusMap[pathSelected] = statusOption.expanded;
             this.setState({pathStatusMap});
