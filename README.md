@@ -18,9 +18,9 @@ import PowerTree from 'react-power-tree';
 
 Developers can choose to provide static data to render tree view or recursively add child nodes in dynamic way. 
 
-### Static tree view
+### [Examples](https://naitianliu.github.io/react-power-tree/)
 
-#### [Examples](https://naitianliu.github.io/react-power-tree/)
+### Static tree view
 
 ```jsx harmony
 <PowerTree
