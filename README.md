@@ -18,15 +18,15 @@ import PowerTree from 'react-power-tree';
 
 Developers can choose to provide static data to render tree view or recursively add child nodes in dynamic way. 
 
-### Static data-driven tree view
+### Static tree view
 
 #### [Examples](https://naitianliu.github.io/react-power-tree/)
 
 ```jsx harmony
 <PowerTree
-    data={dataDefaultExpanded}
+    data={data}
     onNodeSelect={(nodeData) => {
-        console.log('Node selected', nodeData);
+        console.log(nodeData);
     }}
 />
 ```
@@ -39,4 +39,18 @@ Developers can choose to provide static data to render tree view or recursively 
 | children | `array` | N | Array of child node data |
 | defaultExpanded | `boolean` | N | Default value is `false` |
 
+### Dynamic tree view
 
+```jsx harmony
+<PowerTree
+    data={data}
+    onNodeSelect={(nodeData) => {
+        console.log(nodeData)
+    }}
+    onNodeExpand={(nodeData, operations) => {
+        const {addChildren} = operations;
+        const childNodes = [...data];
+        addChildren(childNodes);
+    }}
+/>
+```

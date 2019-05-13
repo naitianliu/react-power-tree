@@ -15,7 +15,7 @@ const items = [
         content: <StaticTreeView/>
     },
     {
-        name: 'Recursive Tree View',
+        name: 'Dynamic Tree View',
         content: <RecursiveTreeView/>
     },
 ];

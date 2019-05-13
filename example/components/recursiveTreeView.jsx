@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 export default function RecursiveTreeView(props) {
     return (
         <div>
-            <Typography variant={"h6"}>Recursive</Typography>
+            <Typography variant={"h6"}>Dynamically add child nodes</Typography>
             <PowerTree
                 data={dataRecursive}
                 onNodeSelect={(nodeData) => {
