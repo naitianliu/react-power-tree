@@ -1,0 +1,9 @@
+# Created by .ignore support plugin (hsz.mobi)
+assets
+example
+test
+.gitignore
+README.md
+webpack.config.js
+webpack-stats.json
+package-lock.json
