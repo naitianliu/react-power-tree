@@ -74,7 +74,7 @@ const getCollapseByNode = (nodeData, status) => {
     return collapse
 };
 
-function recurToGetTree(props, state, targetNode, depth = 0, onExpandFunc, onSelectFunc) {
+const recurToGetTree = (props, state, targetNode, depth=0, onExpandFunc, onSelectFunc) => {
     const {classes} = props;
     const {pathStatusMap, currentPath} = state;
     const path = getPathString(targetNode);
@@ -85,7 +85,8 @@ function recurToGetTree(props, state, targetNode, depth = 0, onExpandFunc, onSel
             {!!targetNode.children && targetNode.children.length > 0 &&
             <Collapse in={depth === 0 || !collapse} unmountOnExit>
                 <List className={classes.list}>
-                    {targetNode.children.map((nodeData, i) => {
+                    {targetNode.children.map((nodeData0, i) => {
+                        let nodeData = Object.assign({}, nodeData0);
                         nodeData['parents'] = [...targetNode.parents, targetNode];
                         const path = getPathString(nodeData);
                         const {name, children} = nodeData;
@@ -139,7 +140,7 @@ function recurToGetTree(props, state, targetNode, depth = 0, onExpandFunc, onSel
             }
         </div>
     )
-}
+};
 
 class PowerTree extends React.Component {
     constructor(props) {
@@ -190,11 +191,11 @@ class PowerTree extends React.Component {
         } else {
             if (!!onNodeExpand) {
                 onNodeExpand(nodeData, {
-                    addChildren: (children) => {
+                    addChildren: (children0) => {
+                        const children = [...children0];
                         const hasChildren = !!nodeData.children && nodeData.children.length > 0;
                         if (!hasChildren) {
-                            nodeData['children'] = children;
-                            // this.addChildrenToNode(nodeData, children);
+                            this.addChildrenToNode(nodeData, children);
                             this.toggleToExpandNode(nodeData);
                         }
                     }
@@ -209,12 +210,11 @@ class PowerTree extends React.Component {
         const {name, parents} = nodeData;
         let path = [];
         for (let i=0; i<parents.length-1; i++) {
-            path = [...path, 'children', parents[i].children.indexOf(parents[i+1])];
+            path = [...path, 'children', parents[i].children.findIndex(item => item.name === parents[i+1].name)];
         }
-        path = [...path, 'children', parents[parents.length - 1].children.indexOf(nodeData)];
+        path = [...path, 'children', parents[parents.length - 1].children.findIndex(item => item.name === nodeData.name)];
         nodeData['children'] = children;
         nodeData = _.omit(nodeData, ['parents']);
-        console.log('path', path, nodeData);
         _.set(rootNode, path, nodeData);
         this.setState({rootNode});
     };
@@ -222,6 +222,7 @@ class PowerTree extends React.Component {
     render() {
         const {classes} = this.props;
         const {rootNode} = this.state;
+        console.log('render - root node', rootNode);
         const tree = recurToGetTree(this.props, this.state, rootNode, 0, this.handleNodeExpand, this.handleNodeSelect);
         return (
             <div className={classes.root}>

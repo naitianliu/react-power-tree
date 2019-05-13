@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
-import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import Navigation from './components/navigation';
-import Typography from "@material-ui/core/Typography";
-import {myTheme} from "example/constants";
 import StaticTreeView from './components/staticTreeView';
 import RecursiveTreeView from './components/recursiveTreeView';
 

@@ -5,7 +5,11 @@ import {dataRecursive, dataAppended} from "example/data/recursiveData";
 import PowerTree from 'src/powerTree';
 import Typography from "@material-ui/core/Typography";
 
-let index = 0;
+
+const data3 = [
+    {name: 'test-1'},
+    {name: 'test-2'}
+];
 
 export default function RecursiveTreeView(props) {
     return (
@@ -17,7 +21,6 @@ export default function RecursiveTreeView(props) {
 
                 }}
                 onNodeExpand={(nodeData, operations) => {
-                    index++;
                     const {addChildren} = operations;
                     const data = [
                         {
@@ -32,9 +35,10 @@ export default function RecursiveTreeView(props) {
                     ];
                     const data2 = [
                         {name: 'test-1'},
-                        {name: 'test-1'}
+                        {name: 'test-2'}
                     ];
-                    addChildren(data);
+                    const testData = [...data3];
+                    addChildren(data3);
                 }}
             />
             <br/>
