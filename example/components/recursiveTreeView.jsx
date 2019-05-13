@@ -27,7 +27,7 @@ export default function RecursiveTreeView(props) {
                             name: `dir-${Math.floor(Math.random() * 1000)}`
                         },
                     ];
-                    addChildren(data);
+                    addChildren(dataAppended);
                 }}
             />
             <br/>
