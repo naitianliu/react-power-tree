@@ -63,3 +63,4 @@ typings/
 package-lock.json
 webpack-stats.json
 assets
+dist
