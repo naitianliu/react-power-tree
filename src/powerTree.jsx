@@ -74,7 +74,8 @@ const getCollapseByNode = (nodeData, status) => {
     return collapse
 };
 
-const recurToGetTree = (props, state, targetNode, depth=0, onExpandFunc, onSelectFunc) => {
+const recurToGetTree = (props, state, targetNode0, depth=0, onExpandFunc, onSelectFunc) => {
+    const targetNode = Object.assign({}, targetNode0);
     const {classes} = props;
     const {pathStatusMap, currentPath} = state;
     const path = getPathString(targetNode);
