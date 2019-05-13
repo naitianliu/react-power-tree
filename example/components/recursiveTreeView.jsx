@@ -12,7 +12,7 @@ export default function RecursiveTreeView(props) {
             <PowerTree
                 data={dataRecursive}
                 onNodeSelect={(nodeData) => {
-
+                    console.log(nodeData)
                 }}
                 onNodeExpand={(nodeData, operations) => {
                     const {addChildren} = operations;

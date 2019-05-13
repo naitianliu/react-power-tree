@@ -177,6 +177,7 @@ class PowerTree extends React.Component {
     handleNodeSelect = (nodeData) => {
         const {onNodeSelect} = this.props;
         if (!!onNodeSelect) {
+            nodeData.parents.splice(0, 1);
             onNodeSelect(nodeData);
         }
         const path = getPathString(nodeData);
@@ -222,7 +223,6 @@ class PowerTree extends React.Component {
     render() {
         const {classes} = this.props;
         const {rootNode} = this.state;
-        console.log('render - root node', rootNode);
         const tree = recurToGetTree(this.props, this.state, rootNode, 0, this.handleNodeExpand, this.handleNodeSelect);
         return (
             <div className={classes.root}>
