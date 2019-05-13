@@ -1,5 +1,6 @@
 // src - index
 
-import PowerTree from 'src/powerTree';
+import PowerTree from './powerTree';
 
 export default PowerTree;
+
