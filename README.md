@@ -1,6 +1,6 @@
 # react-power-tree
 
-![npm version](https://img.shields.io/npm/v/react-power-tree/latest.svg?registry_uri=https%3A%2F%2Fregistry.npmjs.com)
+![npm version](https://img.shields.io/npm/v/react-power-tree/latest.svg?registry_uri=https%3A%2F%2Fregistry.npmjs.com) ![stage](https://img.shields.io/badge/stage-alpha-red.svg) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 
 ## Installation
 
@@ -18,7 +18,7 @@ import PowerTree from 'react-power-tree';
 
 Developers can choose to provide static data to render tree view or recursively add child nodes in dynamic way. 
 
-### [Examples](https://naitianliu.github.io/react-power-tree/)
+### [Online Examples](https://naitianliu.github.io/react-power-tree/)
 
 ### Static tree view
 
@@ -43,7 +43,7 @@ Developers can choose to provide static data to render tree view or recursively 
 
 ```jsx harmony
 <PowerTree
-    data={data}
+    data={initData}
     onNodeSelect={(nodeData) => {
         console.log(nodeData)
     }}
