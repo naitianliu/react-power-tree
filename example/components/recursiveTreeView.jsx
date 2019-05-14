@@ -4,12 +4,6 @@ import {withStyles} from '@material-ui/core/styles';
 import {dataRecursive, dataAppended} from "example/data/recursiveData";
 import PowerTree from 'src/../dist';
 import Typography from "@material-ui/core/Typography";
-import PowerTreeContainer from "src/powerTreeContainer";
-
-const data2 = [
-    {name: 'node-11'},
-    {name: 'node-12'},
-];
 
 export default function RecursiveTreeView(props) {
     return (
@@ -33,21 +27,10 @@ export default function RecursiveTreeView(props) {
                             name: `dir-${Math.floor(Math.random() * 1000)}`
                         },
                     ];
-                    addChildren(data2);
+                    addChildren(data);
                 }}
             />
             <br/>
-            <Typography variant={"h6"}>Power Tree Container</Typography>
-            <PowerTreeContainer
-                data={dataRecursive}
-                onNodeSelect={(nodeData) => {
-                    console.log(nodeData)
-                }}
-                onNodeExpand={(nodeData, operations) => {
-                    const {addChildren} = operations;
-                    addChildren(data2);
-                }}
-            />
         </div>
     )
 }
