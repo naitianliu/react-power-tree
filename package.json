@@ -1,6 +1,6 @@
 {
   "name": "react-power-tree",
-  "version": "0.0.10",
+  "version": "0.0.16",
   "description": "Data and event driven tree view as react component",
   "main": "dist/index.js",
   "directories": {
@@ -35,15 +35,17 @@
     "prop-types": "^15.7.2"
   },
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/plugin-transform-spread": "^7.2.2",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/runtime": "^7.4.4",
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
     "babel-jest": "^23.6.0",
-    "babel-loader": "^7.1.5",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
+    "babel-loader": "^8.0.5",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^24.8.0",
     "react": "^16.8.6",

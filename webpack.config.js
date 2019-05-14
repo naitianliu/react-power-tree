@@ -48,11 +48,11 @@ module.exports = env => {
                     query: {
                         //specify that we will be dealing with React code
                         presets: [
-                            'env',
-                            'react',
+                            "@babel/preset-env",
+                            "@babel/preset-react"
                         ],
                         plugins: [
-                            "transform-class-properties",
+                            "@babel/plugin-proposal-class-properties",
                         ]
                     },
                 },

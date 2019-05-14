@@ -145,13 +145,14 @@ const recurToGetTree = (props, state, targetNode, depth=0, onExpandFunc, onSelec
 class PowerTree extends React.Component {
     constructor(props) {
         super(props);
+        const children = [...this.props.data];
         this.state = {
             pathStatusMap: {},
             currentPath: '',
             rootNode: {
                 name: 'root',
                 parents: [],
-                children: this.props.data,
+                children: children,
             },
         };
     }
@@ -208,7 +209,7 @@ class PowerTree extends React.Component {
     addChildrenToNode = (nodeData, children) => {
         let {rootNode} = this.state;
         // get path array of node
-        const {name, parents} = nodeData;
+        const {parents} = nodeData;
         let path = [];
         for (let i=0; i<parents.length-1; i++) {
             path = [...path, 'children', parents[i].children.findIndex(item => item.name === parents[i+1].name)];
