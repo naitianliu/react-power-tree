@@ -97,7 +97,12 @@ const recurToGetTree = (props, state, targetNode, depth=0, onExpandFunc, onSelec
                         if (!hasChildren) {
                             arrowIcon = <span/>;
                         }
-                        const fileIcon = hasChildren ? <FolderIcon/> : <InsertDriveFileOutlinedIcon/>;
+                        let nodeIcon;
+                        if (!!nodeData.icon) {
+                            nodeIcon = nodeData.icon;
+                        } else {
+                            nodeIcon = hasChildren ? <FolderIcon/> : <InsertDriveFileOutlinedIcon/>;
+                        }
                         return (
                             <div key={path + i}>
                                 <ListItem
@@ -124,7 +129,7 @@ const recurToGetTree = (props, state, targetNode, depth=0, onExpandFunc, onSelec
                                         {arrowIcon}
                                     </ListItemIcon>
                                     <ListItemIcon className={classes.listItemIcon}>
-                                        {fileIcon}
+                                        {nodeIcon}
                                     </ListItemIcon>
                                     <ListItemText
                                         className={classes.listItemText}

@@ -1,4 +1,6 @@
 // example - data - staticData.js
+import React from 'react';
+import CheckIcon from '@material-ui/icons/Check';
 
 export const dataBasic = [
     {
@@ -6,6 +8,7 @@ export const dataBasic = [
         children: [
             {
                 name: "dir10",
+                icon: <CheckIcon/>,
                 children: [
                     {
                         name: "dir20"

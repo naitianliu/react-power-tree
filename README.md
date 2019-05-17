@@ -38,6 +38,7 @@ Developers can choose to provide static data to render tree view or recursively 
 | name | `string` | Y | The name of child nodes with same parent node must be different from each other |
 | children | `array` | N | Array of child node data |
 | defaultExpanded | `boolean` | N | Default value is `false` |
+| icon | `react component` | N | Default value is `directory` or `file` icon |
 
 ### Dynamic tree view
 
