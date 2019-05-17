@@ -1,6 +1,6 @@
 {
   "name": "react-power-tree",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "Data and event driven tree view as react component",
   "main": "dist/index.js",
   "directories": {
