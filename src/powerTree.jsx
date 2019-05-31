@@ -12,11 +12,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import List from "@material-ui/core/List"
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
 import FolderIcon from '@material-ui/icons/Folder'
+import Popover from "@material-ui/core/es/Popover/Popover";
 
 const styles = theme => ({
-    root: {
-
-    },
+    root: {},
     list: {
         backgroundColor: 'white',
         paddingLeft: 0,
@@ -50,7 +49,17 @@ const styles = theme => ({
     },
     listItemText: {
         marginLeft: 0,
-    }
+    },
+    contextMenuListItem: {
+        marginTop: 0,
+        marginBottom: 0,
+        paddingTop: 0,
+        paddingBottom: 0,
+    },
+    contextMenuListItemIcon: {
+        marginRight: 0,
+        paddingRight: 0,
+    },
 });
 
 const statusOption = {
@@ -74,7 +83,7 @@ const getCollapseByNode = (nodeData, status) => {
     return collapse
 };
 
-const recurToGetTree = (props, state, targetNode, depth=0, onExpandFunc, onSelectFunc) => {
+const recurToGetTree = (props, state, targetNode, depth = 0, onExpandFunc, onSelectFunc, onRightClickFunc) => {
     const {classes} = props;
     const {pathStatusMap, currentPath} = state;
     const path = getPathString(targetNode);
@@ -117,6 +126,9 @@ const recurToGetTree = (props, state, targetNode, depth=0, onExpandFunc, onSelec
                                         event.stopPropagation();
                                         onExpandFunc(nodeData);
                                     }}
+                                    onContextMenu={event => {
+                                        onRightClickFunc(event, nodeData);
+                                    }}
                                 >
                                     <ListItemIcon
                                         fontSize={"large"}
@@ -136,7 +148,7 @@ const recurToGetTree = (props, state, targetNode, depth=0, onExpandFunc, onSelec
                                         primary={<Typography variant={"subtitle1"}>{name}</Typography>}
                                     />
                                 </ListItem>
-                                {hasChildren && recurToGetTree(props, state, nodeData, depth + 1, onExpandFunc, onSelectFunc)}
+                                {hasChildren && recurToGetTree(props, state, nodeData, depth + 1, onExpandFunc, onSelectFunc, onRightClickFunc)}
                             </div>
                         )
                     })}
@@ -159,6 +171,12 @@ class PowerTree extends React.Component {
                 parents: [],
                 children: children,
             },
+            contextMenu: {
+                open: false,
+                clickX: 0,
+                clickY: 0,
+                nodeData: null
+            }
         };
     }
 
@@ -211,13 +229,39 @@ class PowerTree extends React.Component {
         }
     };
 
+    handleRightClick = (event, nodeData) => {
+        event.preventDefault();
+        event.persist();
+        const {clientX, clientY} = event;
+        nodeData.parents.splice(0, 1);
+        this.setState({
+            contextMenu: {
+                open: true,
+                clickX: clientX,
+                clickY: clientY,
+                nodeData,
+            }
+        })
+    };
+
+    handleContextMenuClose = () => {
+        this.setState({
+            contextMenu: {
+                open: false,
+                clickX: 0,
+                clickY: 0,
+                nodeData: null
+            }
+        });
+    };
+
     addChildrenToNode = (nodeData, children) => {
         let {rootNode} = this.state;
         // get path array of node
         const {parents} = nodeData;
         let path = [];
-        for (let i=0; i<parents.length-1; i++) {
-            path = [...path, 'children', parents[i].children.findIndex(item => item.name === parents[i+1].name)];
+        for (let i = 0; i < parents.length - 1; i++) {
+            path = [...path, 'children', parents[i].children.findIndex(item => item.name === parents[i + 1].name)];
         }
         path = [...path, 'children', parents[parents.length - 1].children.findIndex(item => item.name === nodeData.name)];
         nodeData['children'] = children;
@@ -227,12 +271,48 @@ class PowerTree extends React.Component {
     };
 
     render() {
-        const {classes} = this.props;
-        const {rootNode} = this.state;
-        const tree = recurToGetTree(this.props, this.state, rootNode, 0, this.handleNodeExpand, this.handleNodeSelect);
+        const {classes, options} = this.props;
+        const {rootNode, contextMenu} = this.state;
+        const tree = recurToGetTree(this.props, this.state, rootNode, 0, this.handleNodeExpand, this.handleNodeSelect, this.handleRightClick);
         return (
             <div className={classes.root}>
                 {tree}
+                {!!options && !!options.contextMenu &&
+                <Popover
+                    open={contextMenu.open}
+                    anchorReference={"anchorPosition"}
+                    anchorPosition={{
+                        left: contextMenu.clickX,
+                        top: contextMenu.clickY,
+                    }}
+                    onClose={this.handleContextMenuClose}
+                >
+                    <List dense={true}>
+                        {options.contextMenu.items.map((item, i) => {
+                            const {icon, label} = item;
+                            return (
+                                <ListItem
+                                    key={i}
+                                    button={true}
+                                    className={classes.contextMenuListItem}
+                                    onClick={() => {
+                                        options.contextMenu.onSelect(label, contextMenu.nodeData);
+                                        this.handleContextMenuClose();
+                                    }}
+                                >
+                                    {!!icon &&
+                                    <ListItemIcon className={classes.contextMenuListItemIcon}>{icon}</ListItemIcon>
+                                    }
+                                    <ListItemText
+                                        disableTypography={true}
+                                        primary={<Typography variant={"subtitle1"}>{label}</Typography>}
+                                    />
+                                </ListItem>
+                            )
+                        })}
+                    </List>
+                </Popover>
+                }
             </div>
         )
     }

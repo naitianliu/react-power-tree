@@ -25,6 +25,7 @@ Developers can choose to provide static data to render tree view or recursively 
 ```jsx harmony
 <PowerTree
     data={data}
+    options={options} // optional
     onNodeSelect={(nodeData) => {
         console.log(nodeData);
     }}
@@ -40,11 +41,23 @@ Developers can choose to provide static data to render tree view or recursively 
 | defaultExpanded | `boolean` | N | Default value is `false` |
 | icon | `react component` | N | Default value is `directory` or `file` icon |
 
+### Options
+
+#### `contextMenu`
+
+Popup when right clicking node. If null or empty, right click won't show the menu 
+
+| Field | Type | Required | Details |
+|:---|:---|:---:|:---|
+| items | `array` | Y | menu items. keys: `icon`, `label` |
+| onSelect | `func` | Y | `onSelect(label, nodeData) => {}` |
+
 ### Dynamic tree view
 
 ```jsx harmony
 <PowerTree
     data={initData}
+    options={options}
     onNodeSelect={(nodeData) => {
         console.log(nodeData)
     }}
