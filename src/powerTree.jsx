@@ -12,7 +12,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import List from "@material-ui/core/List"
 import InsertDriveFileOutlinedIcon from '@material-ui/icons/InsertDriveFileOutlined';
 import FolderIcon from '@material-ui/icons/Folder'
-import Popover from "@material-ui/core/es/Popover/Popover";
+import Popover from "@material-ui/core/Popover";
 
 const styles = theme => ({
     root: {},
