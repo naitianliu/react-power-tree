@@ -45,10 +45,21 @@ const styles = theme => ({
         marginRight: 0,
         paddingLeft: 0,
         paddingRight: 0,
-        width: 20,
+        width: 30,
+        minWidth: 20,
     },
     listItemText: {
-        marginLeft: 0,
+        marginLeft: 0
+    },
+    itemText: {
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        fontWeight: 'bold',
+        paddingTop: 0,
+        paddingBottom: 0,
+        marginTop: -4,
+        marginBottom: -4,
     },
     contextMenuListItem: {
         marginTop: 0,
@@ -59,6 +70,11 @@ const styles = theme => ({
     contextMenuListItemIcon: {
         marginRight: 0,
         paddingRight: 0,
+        width: 30,
+        minWidth: 20,
+    },
+    contextMenuItemText: {
+
     },
 });
 
@@ -145,7 +161,7 @@ const recurToGetTree = (props, state, targetNode, depth = 0, onExpandFunc, onSel
                                     </ListItemIcon>
                                     <ListItemText
                                         className={classes.listItemText}
-                                        primary={<Typography variant={"subtitle1"}>{name}</Typography>}
+                                        primary={<Typography variant={"subtitle1"} className={classes.itemText}>{name}</Typography>}
                                     />
                                 </ListItem>
                                 {hasChildren && recurToGetTree(props, state, nodeData, depth + 1, onExpandFunc, onSelectFunc, onRightClickFunc)}
@@ -305,7 +321,7 @@ class PowerTree extends React.Component {
                                     }
                                     <ListItemText
                                         disableTypography={true}
-                                        primary={<Typography variant={"subtitle1"}>{label}</Typography>}
+                                        primary={<Typography variant={"subtitle1"} className={classes.contextMenuItemText}>{label}</Typography>}
                                     />
                                 </ListItem>
                             )
